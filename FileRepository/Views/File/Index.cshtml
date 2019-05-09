@@ -1,21 +1,53 @@
-﻿
+﻿@model IEnumerable<FileInfo>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "FileList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Dodaj nowy plik</h2>
+
+<h2>FileList</h2>
+<div class="row col-md-12">
+    <table class="table table-striped border">
+
+        @foreach (FileInfo item in Model)
+        {
+            <tr class="text-info">
+                <td>
+                    @item.Name
+                </td>
+   
+                <td style="width:150px">
+                    <div class="btn-group" role="group">
+                        <a type="button" class="btn btn-primary" href="@Url.Action("Edit/"+Model)">
+                            <i class="fas fa-download"></i>
+                        </a>
+                        <a type="button" class="btn btn-danger" href="@Url.Action("Delete/"+Model)">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+
+</div>
+
+
+
+
 @using (Html.BeginForm("Import",
                         "File",
                         FormMethod.Post,
-                        new {encType="multipart/form-data"}
+                        new { encType = "multipart/form-data" }
     ))
 
 {
     <div class="row">
         <div class="col-md-2">
-            <input type="file" name="file"  placeholder="Prosze wybrać plik" />
+            <input type="file" name="file" placeholder="Prosze wybrać plik" />
         </div>
         <div class="col-md-4"></div>
         <input type="submit" value="Import" name="import" id="import" class="btn btn-primary" />
     </div>
-} 
+
+}

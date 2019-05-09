@@ -1,5 +1,9 @@
 ﻿
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -10,28 +14,27 @@ namespace FileRepository.Controllers
         // GET: File
         public ActionResult Index()
         {
-            return View();
+            ViewBag.Message = "Lista plików";
+            string moja_sciezka_do_tego_projektu = AppDomain.CurrentDomain.BaseDirectory;
+            string pelna_sciezka_do_moich_plikow = moja_sciezka_do_tego_projektu + "/App_Data/Upload/";
+            DirectoryInfo dirInfo = new DirectoryInfo(pelna_sciezka_do_moich_plikow);
+            List<FileInfo> files = dirInfo.GetFiles().ToList();
+            return View(files);
         }
 
         [HttpPost]
         public ActionResult Import(HttpPostedFileBase file)
         {
-            if(file.ContentLength > 0)
+            if (file != null)
             {
-                var path = Path.Combine(Server.MapPath("~/App_Data/Repository")
-                                        , file.FileName);
-                file.SaveAs(path);
+                var InputFileName = Path.GetFileName(file.FileName);
+                var ServerSavePath = Path.Combine(Server.MapPath("~/App_Data/Upload/") + InputFileName);
+                file.SaveAs(ServerSavePath);
+
             }
-                return View("Index");
+            return RedirectToAction("Index");
         }
 
 
-        //if (file.ContentLength > 0)
-        //    {
-        //        var fileName = Path.GetFileName(file.FileName);
-        //var path = Path.Combine( fileName);
-        //file.SaveAs(path);
-        //    }
-
-}
+    }
 }
