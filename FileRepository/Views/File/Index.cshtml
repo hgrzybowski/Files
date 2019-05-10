@@ -5,7 +5,7 @@
 }
 
 
-<h2>FileList</h2>
+<h2 style="text-align:center">FileList</h2>
 <div class="row col-md-12">
     <table class="table table-striped border">
 
@@ -15,13 +15,13 @@
                 <td>
                     @item.Name
                 </td>
-   
+
                 <td style="width:150px">
                     <div class="btn-group" role="group">
-                        <a type="button" class="btn btn-primary" href="@Url.Action("Edit/"+Model)">
+                        <a type="button" class="btn btn-primary" href="@Url.Action("Download","File",new { filename = item.Name })">
                             <i class="fas fa-download"></i>
                         </a>
-                        <a type="button" class="btn btn-danger" href="@Url.Action("Delete/"+Model)">
+                        <a type="button" class="btn btn-danger" href="@Url.Action("Delete","File",new { path = item.Name })">
                             <i class="fas fa-trash-alt"></i>
                         </a>
                     </div>
